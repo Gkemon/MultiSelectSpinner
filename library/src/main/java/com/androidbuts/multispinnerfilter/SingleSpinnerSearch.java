@@ -39,8 +39,10 @@ public class SingleSpinnerSearch extends androidx.appcompat.widget.AppCompatSpin
 	private String emptyTitle = "Not Found!";
 	private String searchHint = "Type to search";
 	private SingleSpinnerListener listener;
-	private boolean colorseparation = false;
+	private boolean colorSeparation = false;
 	private boolean isSearchEnabled = true;
+	private String clearText = "Clear";
+
 
 	public SingleSpinnerSearch(Context context) {
 		super(context);
@@ -57,9 +59,16 @@ public class SingleSpinnerSearch extends androidx.appcompat.widget.AppCompatSpin
 				defaultText = spinnerTitle;
 				break;
 			}
+			else if (attr == R.styleable.MultiSpinnerSearch_clearText){
+				this.setClearText(a.getString(attr));
+			}
 		}
 		Log.i(TAG, "spinnerTitle: " + spinnerTitle);
 		a.recycle();
+	}
+
+	public void setClearText(String clearText) {
+		this.clearText=clearText;
 	}
 
 	public SingleSpinnerSearch(Context arg0, AttributeSet arg1, int arg2) {
@@ -74,12 +83,12 @@ public class SingleSpinnerSearch extends androidx.appcompat.widget.AppCompatSpin
 		isSearchEnabled = searchEnabled;
 	}
 
-	public boolean isColorseparation() {
-		return colorseparation;
+	public boolean isColorSeparation() {
+		return colorSeparation;
 	}
 
-	public void setColorseparation(boolean colorseparation) {
-		this.colorseparation = colorseparation;
+	public void setColorSeparation(boolean colorSeparation) {
+		this.colorSeparation = colorSeparation;
 	}
 
 	public List<KeyPairBoolData> getSelectedItems() {
@@ -92,15 +101,6 @@ public class SingleSpinnerSearch extends androidx.appcompat.widget.AppCompatSpin
 		return selectedItems;
 	}
 
-	public List<Long> getSelectedIds() {
-		List<Long> selectedItemsIds = new ArrayList<>();
-		for (KeyPairBoolData item : items) {
-			if (item.isSelected()) {
-				selectedItemsIds.add(item.getId());
-			}
-		}
-		return selectedItemsIds;
-	}
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
@@ -177,13 +177,16 @@ public class SingleSpinnerSearch extends androidx.appcompat.widget.AppCompatSpin
 			editText.setVisibility(GONE);
 		}
 
-		builder.setPositiveButton("Clear", (dialog, which) -> {
+		builder.setPositiveButton(clearText, (dialog, which) -> {
 
 			for (int i = 0; i < items.size(); i++) {
 				items.get(i).setSelected(false);
 			}
 
-			ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(getContext(), R.layout.textview_for_spinner, new String[]{defaultText});
+			ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(
+					getContext(),
+					R.layout.textview_for_spinner,
+					new String[]{defaultText});
 			setAdapter(adapterSpinner);
 
 			if (adapter != null)
@@ -268,7 +271,7 @@ public class SingleSpinnerSearch extends androidx.appcompat.widget.AppCompatSpin
 			holder.textView.setText(data.getName());
 
 			int color = R.color.white;
-			if (colorseparation) {
+			if (colorSeparation) {
 				final int backgroundColor = (position % 2 == 0) ? R.color.list_even : R.color.list_odd;
 				color = backgroundColor;
 				convertView.setBackgroundColor(ContextCompat.getColor(getContext(), backgroundColor));
