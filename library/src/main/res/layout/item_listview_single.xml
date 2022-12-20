@@ -9,7 +9,7 @@
         android:id="@+id/alertTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
+        android:singleLine="false"
         tools:text="Item Name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
