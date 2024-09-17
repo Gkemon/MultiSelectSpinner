@@ -26,7 +26,7 @@ ext {
 android {
     compileSdkVersion 33
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 33
     }
     buildTypes {
